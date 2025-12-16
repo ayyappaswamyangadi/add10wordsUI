@@ -6,6 +6,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
 
@@ -13,11 +14,14 @@ export default function Login() {
     e.preventDefault();
     setMsg("");
     try {
+      setIsLoading(true);
       await login(email, password);
       navigate("/home");
     } catch (err: unknown) {
       const error = err as { response?: { data?: { error?: string } } };
       setMsg(error?.response?.data?.error || "Login failed");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -42,7 +46,9 @@ export default function Login() {
           />
         </div>
         <div>
-          <button type="submit">Login</button>
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? "Wait..." : "Login"}
+          </button>
         </div>
       </form>
       <p>

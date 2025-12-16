@@ -6,18 +6,24 @@ export default function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
   const { signup } = useAuth();
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setMsg(null);
+    const EMAIL_REGEX =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
+    if (!EMAIL_REGEX.test(email)) {
+      setMsg("Please enter a valid email address.");
+      return;
+    }
     try {
-      // signup() will call POST /api/auth?action=signup
-      // API now returns { ok: true, message: "...verify your email" }
-      const res = await signup(name, email, password);
+      setIsLoading(true);
 
+      const res = await signup(name, email, password);
       setMsg(
         res?.message ||
           "Signup successful! Please check your email to verify your account."
@@ -30,7 +36,15 @@ export default function Signup() {
     } catch (err: unknown) {
       const error = err as { response?: { data?: { error?: string } } };
       setMsg(error?.response?.data?.error || "Signup failed");
+    } finally {
+      setIsLoading(false);
     }
+  };
+
+  const handleOnchangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const email = event.target.value;
+
+    setEmail(email);
   };
 
   return (
@@ -70,7 +84,7 @@ export default function Signup() {
           <input
             placeholder="Email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleOnchangeEmail}
             required
             style={{ width: "100%", padding: 8 }}
           />
@@ -87,8 +101,12 @@ export default function Signup() {
           />
         </div>
 
-        <button type="submit" style={{ padding: "8px 14px" }}>
-          Sign up
+        <button
+          type="submit"
+          style={{ padding: "8px 14px" }}
+          disabled={isLoading}
+        >
+          {isLoading ? "Wait..." : "Sign up"}
         </button>
       </form>
 

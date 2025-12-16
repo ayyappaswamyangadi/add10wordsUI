@@ -13,7 +13,8 @@ export default function VerifyEmailPage(): JSX.Element {
   const api = apiClient();
   const navigate = useNavigate();
   const q = useQuery();
-  const token = q.get("token") ?? q.get("t") ?? "";
+  const token = q.get("token") ?? "";
+  console.log(token);
   const [status, setStatus] = useState<
     "idle" | "pending" | "success" | "error"
   >("idle");
@@ -26,28 +27,31 @@ export default function VerifyEmailPage(): JSX.Element {
       return;
     }
 
-    let mounted = true;
-    (async () => {
+    let cancelled = false;
+
+    const verifyEmail = async () => {
       setStatus("pending");
       setMessage(null);
+
       try {
-        // Call the verification endpoint which returns { ok: true, user: { ... } }
         const res = await api.get(
-          `/auth?action=verifyEmail&token=${encodeURIComponent(token)}`
+          `/auth/verify-email?token=${encodeURIComponent(token)}`
         );
-        if (!mounted) return;
-        if (res.data && res.data.ok) {
+
+        if (cancelled) return;
+
+        if (res.data?.ok) {
           setStatus("success");
           setMessage("Email verified! Redirecting to dashboard...");
-          // small delay so user sees the message
           setTimeout(() => navigate("/home"), 1500);
           return;
         }
-        // fallback
+
         setStatus("error");
         setMessage(res.data?.error || "Verification failed");
       } catch (err: unknown) {
-        setStatus("error");
+        if (cancelled) return;
+
         type VerifyErrorResponse = { error?: string };
 
         const serverMsg = isAxiosError<VerifyErrorResponse>(err)
@@ -55,15 +59,19 @@ export default function VerifyEmailPage(): JSX.Element {
           : err instanceof Error
           ? err.message
           : "Verification failed";
+
+        setStatus("error");
         setMessage(serverMsg);
       }
-    })();
+    };
+
+    verifyEmail();
 
     return () => {
-      mounted = false;
+      cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+  }, [token, navigate]);
 
   return (
     <div style={{ maxWidth: 720, margin: "48px auto", padding: 12 }}>
@@ -86,9 +94,8 @@ export default function VerifyEmailPage(): JSX.Element {
             <Link to="/login">Go to login</Link>
             {" — "}
             <span>
-              If your token expired you can request a new verification email
-              from your account page after logging in, or use the resend flow
-              (if available).
+              If your token expired you can request a new verification email by
+              doing signup again
             </span>
           </div>
         </div>
