@@ -1,4 +1,3 @@
-// frontend/src/pages/VerifyEmail.tsx
 import type { JSX } from "react";
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router";
@@ -14,10 +13,7 @@ export default function VerifyEmailPage(): JSX.Element {
   const navigate = useNavigate();
   const q = useQuery();
   const token = q.get("token") ?? "";
-  console.log(token);
-  const [status, setStatus] = useState<
-    "idle" | "pending" | "success" | "error"
-  >("idle");
+  const [status, setStatus] = useState<"idle" | "pending" | "success" | "error">("idle");
   const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -34,72 +30,67 @@ export default function VerifyEmailPage(): JSX.Element {
       setMessage(null);
 
       try {
-        const res = await api.get(
-          `/auth/verify-email?token=${encodeURIComponent(token)}`
-        );
-
+        const res = await api.get(`/auth/verify-email?token=${encodeURIComponent(token)}`);
         if (cancelled) return;
-
         if (res.data?.ok) {
           setStatus("success");
-          setMessage("Email verified! Redirecting to dashboard...");
+          setMessage("Email verified! Redirecting to dashboard…");
           setTimeout(() => navigate("/home"), 1500);
           return;
         }
-
         setStatus("error");
         setMessage(res.data?.error || "Verification failed");
       } catch (err: unknown) {
         if (cancelled) return;
-
         type VerifyErrorResponse = { error?: string };
-
         const serverMsg = isAxiosError<VerifyErrorResponse>(err)
           ? err.response?.data?.error ?? err.message ?? "Verification failed"
           : err instanceof Error
           ? err.message
           : "Verification failed";
-
         setStatus("error");
         setMessage(serverMsg);
       }
     };
 
     verifyEmail();
-
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token, navigate]);
 
   return (
-    <div style={{ maxWidth: 720, margin: "48px auto", padding: 12 }}>
-      <h2>Verify your email</h2>
+    <div className="auth-page">
+      <div className="auth-card">
+        <div className="auth-logo">Revise</div>
+        <p className="auth-tagline">Learn 10 words a day</p>
 
-      {status === "idle" && <div>Preparing verification...</div>}
+        <h2 className="auth-title">Verify your email</h2>
 
-      {status === "pending" && <div>Verifying your email — please wait...</div>}
+        {(status === "idle" || status === "pending") && (
+          <p className="auth-status">
+            {status === "idle" ? "Preparing verification…" : "Verifying your email — please wait…"}
+          </p>
+        )}
 
-      {status === "success" && (
-        <div style={{ color: "green", marginTop: 12 }}>{message}</div>
-      )}
+        {status === "success" && (
+          <div className="auth-msg auth-msg--success">{message}</div>
+        )}
 
-      {status === "error" && (
-        <div style={{ marginTop: 12 }}>
-          <div style={{ color: "crimson", marginBottom: 12 }}>
-            {message || "Verification failed."}
-          </div>
-          <div>
-            <Link to="/login">Go to login</Link>
-            {" — "}
-            <span>
-              If your token expired you can request a new verification email by
-              doing signup again
-            </span>
-          </div>
-        </div>
-      )}
+        {status === "error" && (
+          <>
+            <div className="auth-msg auth-msg--error">
+              {message || "Verification failed."}
+            </div>
+            <p className="auth-status" style={{ fontSize: 13, color: "#6b7280" }}>
+              If your token expired, request a new one by signing up again.
+            </p>
+          </>
+        )}
+
+        <p className="auth-footer">
+          <Link to="/login">Back to sign in</Link>
+        </p>
+      </div>
     </div>
   );
 }

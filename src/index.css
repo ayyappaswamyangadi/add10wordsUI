@@ -2,7 +2,7 @@ body {
   font-family: Inter, system-ui, -apple-system, Roboto, Arial;
   margin: 0;
   padding: 12px;
-  background: #fafafa;
+  background: #f0f2f5;
 }
 input,
 textarea,
@@ -10,6 +10,137 @@ select,
 button {
   font-family: inherit;
 }
+
+/* ── Auth card ────────────────────────────────── */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+}
+
+.auth-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  padding: 40px 36px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.auth-logo {
+  font-size: 28px;
+  font-weight: 800;
+  color: #4f46e5;
+  letter-spacing: -0.5px;
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+.auth-tagline {
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+  margin-bottom: 28px;
+}
+
+.auth-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 20px;
+}
+
+/* ── Messages ─────────────────────────────────── */
+.auth-msg {
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+.auth-msg--error {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+.auth-msg--success {
+  background: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+
+/* ── Form fields ──────────────────────────────── */
+.auth-field {
+  margin-bottom: 14px;
+}
+
+.auth-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 15px;
+  color: #111827;
+  background: #f9fafb;
+  box-sizing: border-box;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  outline: none;
+}
+.auth-input:focus {
+  border-color: #4f46e5;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+}
+.auth-input::placeholder {
+  color: #9ca3af;
+}
+
+/* ── Button ───────────────────────────────────── */
+.auth-btn {
+  width: 100%;
+  padding: 11px;
+  background: #4f46e5;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: background 0.15s, opacity 0.15s;
+}
+.auth-btn:hover:not(:disabled) {
+  background: #4338ca;
+}
+.auth-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ── Footer links ─────────────────────────────── */
+.auth-footer {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #6b7280;
+  text-align: center;
+}
+.auth-footer a {
+  color: #4f46e5;
+  font-weight: 500;
+  text-decoration: none;
+}
+.auth-footer a:hover {
+  text-decoration: underline;
+}
+
+/* ── Verify email status ──────────────────────── */
+.auth-status {
+  font-size: 15px;
+  color: #374151;
+  margin-top: 12px;
+}
+
 /* error highlights used by AddWords preview */
 .small {
   font-size: 12px;

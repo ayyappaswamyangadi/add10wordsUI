@@ -7,6 +7,8 @@ import Signup from "./components/Signup";
 import Dashboard from "./components/Dashboard";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import VerifyEmailPage from "./components/VerifyEmail";
+import ForgotPassword from "./components/ForgotPassword";
+import ResetPassword from "./components/ResetPassword";
 //css
 import "./index.css";
 
@@ -18,6 +20,8 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/verify-email" element={<VerifyEmailPage />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route
           path="/home"
           element={

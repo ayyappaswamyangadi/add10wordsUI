@@ -22,14 +22,11 @@ export default function Signup() {
     }
     try {
       setIsLoading(true);
-
       const res = await signup(name, email, password);
       setMsg(
         res?.message ||
           "Signup successful! Please check your email to verify your account."
       );
-
-      // Clear fields
       setName("");
       setEmail("");
       setPassword("");
@@ -41,78 +38,61 @@ export default function Signup() {
     }
   };
 
-  const handleOnchangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const email = event.target.value;
-
-    setEmail(email);
-  };
+  const isSuccess = !!msg?.toLowerCase().includes("success");
 
   return (
-    <div style={{ maxWidth: 560, margin: "40px auto" }}>
-      <h2>Sign up</h2>
+    <div className="auth-page">
+      <div className="auth-card">
+        <div className="auth-logo">Revise</div>
+        <p className="auth-tagline">Learn 10 words a day</p>
 
-      {msg && (
-        <div
-          style={{
-            marginBottom: 12,
-            padding: 10,
-            borderRadius: 6,
-            background: msg.toLowerCase().includes("success")
-              ? "#e8fbe8"
-              : "#ffecec",
-            color: msg.toLowerCase().includes("success")
-              ? "#0a7a0a"
-              : "#b20000",
-          }}
-        >
-          {msg}
-        </div>
-      )}
+        <h2 className="auth-title">Create an account</h2>
 
-      <form onSubmit={submit}>
-        <div style={{ marginBottom: 10 }}>
-          <input
-            placeholder="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            style={{ width: "100%", padding: 8 }}
-          />
-        </div>
+        {msg && (
+          <div className={`auth-msg ${isSuccess ? "auth-msg--success" : "auth-msg--error"}`}>
+            {msg}
+          </div>
+        )}
 
-        <div style={{ marginBottom: 10 }}>
-          <input
-            placeholder="Email"
-            value={email}
-            onChange={handleOnchangeEmail}
-            required
-            style={{ width: "100%", padding: 8 }}
-          />
-        </div>
+        <form onSubmit={submit}>
+          <div className="auth-field">
+            <input
+              className="auth-input"
+              placeholder="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
+          <div className="auth-field">
+            <input
+              className="auth-input"
+              placeholder="Email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className="auth-field">
+            <input
+              className="auth-input"
+              placeholder="Password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <button className="auth-btn" type="submit" disabled={isLoading}>
+            {isLoading ? "Creating account…" : "Sign up"}
+          </button>
+        </form>
 
-        <div style={{ marginBottom: 10 }}>
-          <input
-            placeholder="Password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            style={{ width: "100%", padding: 8 }}
-          />
-        </div>
-
-        <button
-          type="submit"
-          style={{ padding: "8px 14px" }}
-          disabled={isLoading}
-        >
-          {isLoading ? "Wait..." : "Sign up"}
-        </button>
-      </form>
-
-      <p style={{ marginTop: 16 }}>
-        Already have an account? <Link to="/login">Log in</Link>
-      </p>
+        <p className="auth-footer">
+          Already have an account? <Link to="/login">Sign in</Link>
+        </p>
+      </div>
     </div>
   );
 }
