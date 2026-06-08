@@ -204,7 +204,7 @@ export default function AddWords({ onAdded }: AddWordsProps = {}) {
   // Render
   // --------------------
   return (
-    <div style={{ maxWidth: 900, margin: "12px auto", padding: 12 }}>
+    <div className="add-words">
       <h3>Add exactly 10 words</h3>
 
       <textarea
@@ -214,8 +214,9 @@ export default function AddWords({ onAdded }: AddWordsProps = {}) {
         style={{ width: "100%", padding: 10 }}
       />
 
-      <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
+      <div className="add-words-actions">
         <button
+          className="btn-primary"
           onClick={handleValidate}
           disabled={state.loading || parsedCount !== 10}
         >
@@ -229,7 +230,7 @@ export default function AddWords({ onAdded }: AddWordsProps = {}) {
           Clear
         </button>
 
-        <div style={{ marginLeft: "auto" }}>Words: {parsedCount} / 10</div>
+        <div className="words-count">Words: {parsedCount} / 10</div>
       </div>
 
       {state.message && (
@@ -273,6 +274,7 @@ export default function AddWords({ onAdded }: AddWordsProps = {}) {
 
           <div style={{ marginTop: 12 }}>
             <button
+              className="btn-primary"
               onClick={() => submitFinal(buildFinal())}
               disabled={!isFinalValid() || state.loading}
             >

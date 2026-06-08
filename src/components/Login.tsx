@@ -28,7 +28,7 @@ export default function Login() {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <div className="auth-logo">Revise</div>
+        <div className="auth-logo">Improve English vocabulary</div>
         <p className="auth-tagline">Learn 10 words a day</p>
 
         <h2 className="auth-title">Welcome back</h2>
@@ -56,7 +56,10 @@ export default function Login() {
               required
             />
           </div>
-          <div className="auth-footer" style={{ textAlign: "right", marginTop: 0, marginBottom: 12 }}>
+          <div
+            className="auth-footer"
+            style={{ textAlign: "right", marginTop: 0, marginBottom: 12 }}
+          >
             <Link to="/forgot-password">Forgot password?</Link>
           </div>
           <button className="auth-btn" type="submit" disabled={isLoading}>

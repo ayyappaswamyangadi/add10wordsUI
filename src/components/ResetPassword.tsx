@@ -41,7 +41,7 @@ export default function ResetPassword() {
     return (
       <div className="auth-page">
         <div className="auth-card">
-          <div className="auth-logo">Revise</div>
+          <div className="auth-logo">Improve English vocabulary</div>
           <p className="auth-tagline">Learn 10 words a day</p>
           <div className="auth-msg auth-msg--error">
             Invalid or missing reset token.
@@ -57,7 +57,7 @@ export default function ResetPassword() {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <div className="auth-logo">Revise</div>
+        <div className="auth-logo">Improve English vocabulary</div>
         <p className="auth-tagline">Learn 10 words a day</p>
 
         <h2 className="auth-title">Set a new password</h2>

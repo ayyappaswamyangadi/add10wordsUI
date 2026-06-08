@@ -25,7 +25,7 @@ export default function Signup() {
       const res = await signup(name, email, password);
       setMsg(
         res?.message ||
-          "Signup successful! Please check your email to verify your account."
+          "Signup successful! Please check your email to verify your account.",
       );
       setName("");
       setEmail("");
@@ -43,13 +43,15 @@ export default function Signup() {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <div className="auth-logo">Revise</div>
+        <div className="auth-logo">Improve English vocabulary</div>
         <p className="auth-tagline">Learn 10 words a day</p>
 
         <h2 className="auth-title">Create an account</h2>
 
         {msg && (
-          <div className={`auth-msg ${isSuccess ? "auth-msg--success" : "auth-msg--error"}`}>
+          <div
+            className={`auth-msg ${isSuccess ? "auth-msg--success" : "auth-msg--error"}`}
+          >
             {msg}
           </div>
         )}

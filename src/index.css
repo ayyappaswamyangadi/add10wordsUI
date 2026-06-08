@@ -1,14 +1,377 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* ── Design tokens ───────────────────────────── */
+:root {
+  --primary:        #4f46e5;
+  --primary-dark:   #4338ca;
+  --primary-light:  rgba(79, 70, 229, 0.08);
+  --primary-border: rgba(79, 70, 229, 0.25);
+  --text:           #0f172a;
+  --text-muted:     #64748b;
+  --border:         #e2e8f0;
+  --surface:        #ffffff;
+  --bg:             #f1f3f8;
+  --radius-sm:      6px;
+  --radius-md:      10px;
+  --radius-lg:      16px;
+  --shadow-sm:      0 1px 4px rgba(0, 0, 0, 0.06);
+  --shadow-md:      0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+html {
+  overflow-x: clip;
+}
+
 body {
   font-family: Inter, system-ui, -apple-system, Roboto, Arial;
   margin: 0;
-  padding: 12px;
-  background: #f0f2f5;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: clip;
 }
+
 input,
 textarea,
 select,
 button {
   font-family: inherit;
+}
+
+/* ── Non-auth inputs & selects ───────────────── */
+input:not(.auth-input),
+select {
+  height: 36px;
+  padding: 0 10px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: #f8fafc;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+}
+input:not(.auth-input):focus,
+select:focus {
+  border-color: var(--primary);
+  background: #fff;
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+input::placeholder {
+  color: #94a3b8;
+}
+
+textarea {
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  background: #f8fafc;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+}
+textarea:focus {
+  border-color: var(--primary);
+  background: #fff;
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+textarea::placeholder {
+  color: #94a3b8;
+}
+
+/* ── Base button (non-auth) ──────────────────── */
+button:not(.auth-btn) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+  height: 36px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.15s, background 0.15s, color 0.15s, box-shadow 0.15s;
+}
+button:not(.auth-btn):hover:not(:disabled) {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+button:not(.auth-btn):disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ── Button variants ─────────────────────────── */
+.btn-primary {
+  background: var(--primary) !important;
+  color: #fff !important;
+  border-color: var(--primary) !important;
+}
+.btn-primary:hover:not(:disabled) {
+  background: var(--primary-dark) !important;
+  border-color: var(--primary-dark) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3) !important;
+}
+
+.btn-ghost {
+  background: transparent !important;
+  border-color: transparent !important;
+  color: var(--text-muted) !important;
+}
+.btn-ghost:hover:not(:disabled) {
+  background: var(--primary-light) !important;
+  border-color: transparent !important;
+  color: var(--primary) !important;
+}
+
+.btn-outline {
+  background: transparent !important;
+  border-color: var(--primary-border) !important;
+  color: var(--primary) !important;
+}
+.btn-outline:hover:not(:disabled) {
+  background: var(--primary-light) !important;
+  border-color: var(--primary) !important;
+}
+
+/* ── Dashboard top bar ───────────────────────── */
+.dash-tabs {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  position: sticky;
+  top: 56px;
+  z-index: 9;
+  padding: 0 24px;
+  gap: 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.dash-tab {
+  padding: 0 20px;
+  height: 44px;
+  background: none !important;
+  border: none !important;
+  border-bottom: 2px solid transparent !important;
+  border-radius: 0 !important;
+  color: var(--text-muted) !important;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: color 0.15s, border-color 0.15s;
+}
+.dash-tab:hover:not(:disabled) {
+  color: var(--primary) !important;
+  border-bottom-color: var(--primary-border) !important;
+}
+.dash-tab.active {
+  color: var(--primary) !important;
+  border-bottom-color: var(--primary) !important;
+  font-weight: 600;
+}
+
+.dash-tab-badge {
+  background: var(--primary-light);
+  color: var(--primary);
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 20px;
+  padding: 1px 7px;
+  min-width: 20px;
+  text-align: center;
+}
+
+.dash-nav {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  height: 56px;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: var(--shadow-sm);
+}
+
+.dash-brand {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: -0.5px;
+}
+
+.dash-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dash-user {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* ── Dashboard layout ────────────────────────── */
+.dash-container {
+  max-width: 1000px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+
+.dash-filters {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  margin-top: 16px;
+  padding: 12px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.dash-filters label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--text-muted);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.dash-search {
+  flex: 1 0 220px;
+}
+
+.dash-search input {
+  width: 100%;
+}
+
+.dash-export {
+  margin-left: auto;
+}
+
+/* ── Words layout ────────────────────────────── */
+.words-layout {
+  margin-top: 16px;
+  display: flex;
+  gap: 16px;
+}
+
+.words-col {
+  flex: 1;
+  min-width: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 16px 20px;
+}
+
+.words-col h3 {
+  margin: 0 0 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.words-col h3 small {
+  font-weight: 400;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-scroll table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 220px;
+  font-size: 14px;
+}
+
+.table-scroll thead th {
+  text-align: left;
+  padding: 7px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--primary);
+  background: var(--primary-light);
+  border-bottom: 1px solid var(--primary-border);
+}
+
+.table-scroll tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.1s;
+}
+
+.table-scroll tbody tr:last-child {
+  border-bottom: none;
+}
+
+.table-scroll tbody tr:hover {
+  background: #f8fafc;
+}
+
+.table-scroll tbody td {
+  padding: 8px 10px;
+  color: var(--text);
+}
+
+/* ── AddWords ────────────────────────────────── */
+.add-words {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  margin: 16px 0;
+  padding: 20px 24px;
+}
+
+.add-words h3 {
+  margin: 0 0 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.add-words-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+  align-items: center;
+}
+
+.words-count {
+  margin-left: auto;
+  white-space: nowrap;
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 500;
 }
 
 /* ── Auth card ────────────────────────────────── */
@@ -18,21 +381,23 @@ button {
   align-items: center;
   justify-content: center;
   padding: 24px 16px;
+  overflow-x: hidden;
 }
 
 .auth-card {
   background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
   padding: 40px 36px;
   width: 100%;
   max-width: 420px;
+  border: 1px solid var(--border);
 }
 
 .auth-logo {
   font-size: 28px;
   font-weight: 800;
-  color: #4f46e5;
+  color: var(--primary);
   letter-spacing: -0.5px;
   margin-bottom: 4px;
   text-align: center;
@@ -40,7 +405,7 @@ button {
 
 .auth-tagline {
   text-align: center;
-  color: #6b7280;
+  color: var(--text-muted);
   font-size: 14px;
   margin-bottom: 28px;
 }
@@ -48,7 +413,7 @@ button {
 .auth-title {
   font-size: 22px;
   font-weight: 700;
-  color: #111827;
+  color: var(--text);
   margin: 0 0 20px;
 }
 
@@ -81,26 +446,26 @@ button {
   border: 1.5px solid #d1d5db;
   border-radius: 8px;
   font-size: 15px;
-  color: #111827;
+  color: var(--text);
   background: #f9fafb;
   box-sizing: border-box;
   transition: border-color 0.15s, box-shadow 0.15s;
   outline: none;
 }
 .auth-input:focus {
-  border-color: #4f46e5;
+  border-color: var(--primary);
   background: #fff;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+  box-shadow: 0 0 0 3px var(--primary-light);
 }
 .auth-input::placeholder {
   color: #9ca3af;
 }
 
-/* ── Button ───────────────────────────────────── */
+/* ── Auth button ──────────────────────────────── */
 .auth-btn {
   width: 100%;
   padding: 11px;
-  background: #4f46e5;
+  background: var(--primary);
   color: #fff;
   font-size: 15px;
   font-weight: 600;
@@ -108,10 +473,11 @@ button {
   border-radius: 8px;
   cursor: pointer;
   margin-top: 4px;
-  transition: background 0.15s, opacity 0.15s;
+  transition: background 0.15s, box-shadow 0.15s, opacity 0.15s;
 }
 .auth-btn:hover:not(:disabled) {
-  background: #4338ca;
+  background: var(--primary-dark);
+  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.35);
 }
 .auth-btn:disabled {
   opacity: 0.6;
@@ -122,11 +488,11 @@ button {
 .auth-footer {
   margin-top: 20px;
   font-size: 14px;
-  color: #6b7280;
+  color: var(--text-muted);
   text-align: center;
 }
 .auth-footer a {
-  color: #4f46e5;
+  color: var(--primary);
   font-weight: 500;
   text-decoration: none;
 }
@@ -141,11 +507,80 @@ button {
   margin-top: 12px;
 }
 
-/* error highlights used by AddWords preview */
+/* ── Utilities ────────────────────────────────── */
 .small {
   font-size: 12px;
   color: #666;
 }
 .muted {
-  color: #888;
+  color: var(--text-muted);
+}
+
+/* ── Mobile ──────────────────────────────────── */
+@media (max-width: 600px) {
+  .auth-card {
+    padding: 28px 20px;
+  }
+
+  /* prevent iOS auto-zoom on focus */
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+
+  button {
+    min-height: 44px;
+  }
+
+  .dash-nav {
+    padding: 0 12px;
+  }
+
+  .dash-tabs {
+    padding: 0 8px;
+    top: 56px;
+  }
+
+  .dash-tab {
+    padding: 0 12px;
+    font-size: 13px;
+  }
+
+  .dash-container {
+    margin: 12px auto;
+    padding: 0 8px;
+  }
+
+  .dash-filters {
+    padding: 10px 12px;
+  }
+
+  .dash-filters label {
+    flex: 1 1 100%;
+  }
+
+  .dash-search {
+    flex: 1 1 100%;
+  }
+
+  .dash-export {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .words-layout {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .add-words {
+    padding: 16px;
+  }
+
+  .words-count {
+    width: 100%;
+    text-align: right;
+    margin-left: 0;
+  }
 }
