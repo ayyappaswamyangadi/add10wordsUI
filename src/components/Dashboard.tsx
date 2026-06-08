@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../auth/useAuth";
 import AddWords from "./AddWords";
 import WordsList from "./WordsList";
+import Spinner from "./Spinner";
 
 type Tab = "add" | "mine" | "all";
 
@@ -26,6 +27,7 @@ export default function Dashboard(): JSX.Element {
     q: "",
   });
   const [loading, setLoading] = useState(false);
+  const [initialLoad, setInitialLoad] = useState(true);
 
   const load = async () => {
     setLoading(true);
@@ -45,6 +47,7 @@ export default function Dashboard(): JSX.Element {
       setMyWords([]);
     } finally {
       setLoading(false);
+      setInitialLoad(false);
     }
   };
 
@@ -118,6 +121,13 @@ export default function Dashboard(): JSX.Element {
       </div>
 
       <div className="dash-container">
+        {initialLoad && loading ? (
+          <div className="dash-loading">
+            <Spinner size={32} />
+            <span>Loading your words…</span>
+          </div>
+        ) : (
+          <>
         {activeTab === "add" && (
           <AddWords
             onAdded={() => {
@@ -206,6 +216,8 @@ export default function Dashboard(): JSX.Element {
               currentUserId={user?.id}
               mode={activeTab}
             />
+          </>
+        )}
           </>
         )}
       </div>

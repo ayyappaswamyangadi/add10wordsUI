@@ -470,6 +470,25 @@ button:not(.auth-btn):disabled {
   flex-shrink: 0;
 }
 
+.page-spinner {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+}
+
+.dash-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 80px 0;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
 /* ── Auth button ──────────────────────────────── */
 .auth-btn {
   width: 100%;
