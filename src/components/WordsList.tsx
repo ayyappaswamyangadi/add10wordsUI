@@ -1,4 +1,5 @@
 // frontend/src/components/WordsList.tsx
+import Spinner from "./Spinner";
 
 type Word = {
   _id: string;
@@ -24,7 +25,8 @@ export default function WordsList({
 }) {
   if (loading)
     return (
-      <div style={{ marginTop: 20, color: "var(--text-muted)", fontSize: 14 }}>
+      <div style={{ marginTop: 20, color: "var(--text-muted)", fontSize: 14, display: "flex", alignItems: "center", gap: 8 }}>
+        <Spinner />
         Loading…
       </div>
     );

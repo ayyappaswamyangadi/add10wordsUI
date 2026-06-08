@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router";
 import { useAuth } from "../auth/useAuth";
+import Spinner from "./Spinner";
 
 export default function Signup() {
   const [name, setName] = useState("");
@@ -87,7 +88,7 @@ export default function Signup() {
             />
           </div>
           <button className="auth-btn" type="submit" disabled={isLoading}>
-            {isLoading ? "Creating account…" : "Sign up"}
+            {isLoading ? <><Spinner />Creating account…</> : "Sign up"}
           </button>
         </form>
 

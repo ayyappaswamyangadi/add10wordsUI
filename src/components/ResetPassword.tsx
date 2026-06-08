@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useSearchParams, useNavigate } from "react-router";
 import { apiClient } from "../api/api";
 import { isAxiosError } from "axios";
+import Spinner from "./Spinner";
 
 export default function ResetPassword() {
   const [searchParams] = useSearchParams();
@@ -95,7 +96,7 @@ export default function ResetPassword() {
               />
             </div>
             <button className="auth-btn" type="submit" disabled={isLoading}>
-              {isLoading ? "Updating…" : "Update password"}
+              {isLoading ? <><Spinner />Updating…</> : "Update password"}
             </button>
           </form>
         )}

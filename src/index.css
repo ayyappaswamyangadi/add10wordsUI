@@ -461,6 +461,15 @@ button:not(.auth-btn):disabled {
   color: #9ca3af;
 }
 
+/* ── Spinner ──────────────────────────────────── */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.spinner {
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
 /* ── Auth button ──────────────────────────────── */
 .auth-btn {
   width: 100%;
@@ -473,6 +482,10 @@ button:not(.auth-btn):disabled {
   border-radius: 8px;
   cursor: pointer;
   margin-top: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   transition: background 0.15s, box-shadow 0.15s, opacity 0.15s;
 }
 .auth-btn:hover:not(:disabled) {

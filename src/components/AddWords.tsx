@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useReducer, useRef } from "react";
 import type { AxiosError } from "axios";
 import { useAuth } from "../auth/useAuth";
+import Spinner from "./Spinner";
 
 type Conflicts = { db: string[]; inBatch: string[] } | null;
 
@@ -220,7 +221,7 @@ export default function AddWords({ onAdded }: AddWordsProps = {}) {
           onClick={handleValidate}
           disabled={state.loading || parsedCount !== 10}
         >
-          {state.loading ? "Working..." : "Validate & Submit"}
+          {state.loading ? <><Spinner />Working…</> : "Validate & Submit"}
         </button>
 
         <button
@@ -278,7 +279,7 @@ export default function AddWords({ onAdded }: AddWordsProps = {}) {
               onClick={() => submitFinal(buildFinal())}
               disabled={!isFinalValid() || state.loading}
             >
-              Submit replacements
+              {state.loading ? <><Spinner />Submitting…</> : "Submit replacements"}
             </button>
           </div>
         </div>

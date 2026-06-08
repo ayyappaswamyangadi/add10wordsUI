@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router";
 import { apiClient } from "../api/api";
 import { isAxiosError } from "axios";
+import Spinner from "./Spinner";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -73,7 +74,8 @@ export default function VerifyEmailPage(): JSX.Element {
         <h2 className="auth-title">Verify your email</h2>
 
         {(status === "idle" || status === "pending") && (
-          <p className="auth-status">
+          <p className="auth-status" style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <Spinner />
             {status === "idle"
               ? "Preparing verification…"
               : "Verifying your email — please wait…"}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { useAuth } from "../auth/useAuth";
+import Spinner from "./Spinner";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -63,7 +64,7 @@ export default function Login() {
             <Link to="/forgot-password">Forgot password?</Link>
           </div>
           <button className="auth-btn" type="submit" disabled={isLoading}>
-            {isLoading ? "Signing in…" : "Sign in"}
+            {isLoading ? <><Spinner />Signing in…</> : "Sign in"}
           </button>
         </form>
 
